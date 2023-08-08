@@ -1,0 +1,191 @@
+
+.data-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1300px;
+  width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  align-items: center;
+  padding: 0 20px; 
+}
+
+.data-card {
+  width: calc(30% - 20px); /* To fit 3 cards in a row with a little gap between them */
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: relative;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.data-card:hover {
+  transform: scale(1.1);
+  transition: 0.2s;
+}
+
+.data-card h2 {
+  margin: 0;
+  font-size: 18px; /* Increase the font size for the book title */
+}
+
+.data-card p {
+  margin: 5px 0;
+  font-size: 14px; /* Increase the font size for the book description */
+}
+
+/* Book Actions */
+.data-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.data-actions a.btn-primary {
+  flex-grow: 1;
+  background-color: white;
+  color: #007bff;
+  border: 2px solid #007bff;
+}
+
+/* Delete Genre Action */
+.data-actions button.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Keep the .btn-danger in the corner and separate from the view button */
+.btn-danger {
+  margin-left: auto; /* Move .btn-danger to the right, pushing it to the corner */
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Increase the font size a little for all buttons */
+.btn {
+  padding: 8px 16px;
+  font-size: 18px; /* Change the font size to 18px */
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.book-image {
+  width: 200px;
+  height: 300px;
+  object-fit: cover; /* To ensure the image covers the entire container */
+  border: 1px solid #ccc; /* Optional: Add a border to the image */
+  border-radius: 4px; /* Optional: Add rounded corners */
+}
+
+.container {
+  position: relative;
+}
+
+.filter-container {
+  margin-bottom: 10px;
+  position: inherit;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  border: 0.5px solid rgb(179, 179, 180);
+  border-radius: 40px solid ;
+}
+
+.filter-label {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.filter-input,
+.filter-dropdown {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+.filter-input {
+  width: 200px;
+}
+
+.filter-dropdown {
+  width: 420px;
+  height: 43px;
+}
+
+button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 8px 16px;
+  font-size: 18px; /* Change the font size to 18px */
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.bt {
+  color: #fff;
+  margin-top: 25px;
+  width: 15%;
+}
+
+a.bt{
+  text-decoration: none;
+}
+
+.search{
+  margin-left: -150px;
+} 
+
+.btn-primary {
+  flex-grow: 1; 
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+.me-2 {
+  border: 0.5px solid rgb(179, 179, 180);
+  border-radius: 40px solid ;
+  height: 43px;
+  width: 350px;
+  align-items: center;
+}
+
+.select {
+  border: 0.5px solid rgb(179, 179, 180);
+  border-radius: 40px solid ;
+  width: 420px;
+  height: 43px
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 768px) {
+  .data-card {
+    width: 100%; 
+  }
+  .data-card h2 {
+    font-size: 16px; 
+  }
+  .data-card p {
+    font-size: 12px; 
+  }
+  .row {
+    display: contents;
+  }
+  .me-2{
+    position: absolute;
+    margin-left: 40px;
+  }
+}
