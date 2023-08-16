@@ -58,8 +58,12 @@ function App(props) {
           <Route exact path="/">
             <Books isNightMode={isNightMode} />
           </Route>
-          <Route exact path = "/genres" component = {Genres} />
-          <Route exact path = "/authors" component = {Authors} />
+          <Route exact path="/genres">
+            <Genres isNightMode={isNightMode} />
+          </Route>
+          <Route exact path="/authors">
+            <Authors isNightMode={isNightMode} />
+          </Route>
           <Route exact path = "/about" component ={About} />
           <Route exact path = "/contact" component = {Contact} />
 
@@ -78,7 +82,9 @@ function App(props) {
           <Route exact path = "/genre/add" component = {AddGenre} />
 
          {/* Book */}
-          <Route exact path="/book/add" component={AddBook} />
+         <Route exact path="/book/add">
+            <AddBook isNightMode={isNightMode} />
+          </Route>
           <Route exact path="/books/edit/:id" component={EditBook} />
           <Route exact path="/books/:id">
             <BookView isNightMode={isNightMode} />

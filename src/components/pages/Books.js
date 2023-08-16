@@ -10,6 +10,7 @@ import MyLoader from "../loading/MyLoader";
 import ConvertToImage from "../converter/ConvertToImage";
 import Button from "react-bootstrap/Button";
 import "bootstrap";
+import Search from "../Search";
 
 const Books = ({isNightMode}) => {
   const [books, setBooks] = useState([]);
@@ -115,13 +116,7 @@ const Books = ({isNightMode}) => {
           >
             <div className="filter-container">
               <label className="filter.label" />
-              <input
-                placeholder="Search..."
-                className="me-2"
-                type="text"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
+              <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
               <Button
                 onClick={loadBooks}
                 variant="outline-success"
@@ -153,6 +148,7 @@ const Books = ({isNightMode}) => {
                 name="author"
                 value={selectedAuthor}
                 onChange={handleAuthorChange}
+                style={{backgroundColor: isNightMode ? "#1e1d23" : "#fff", color: isNightMode ? "white":"black"}}
               >
                 <option value="">Choose Author</option>
                 {authors.map((author) => (
@@ -168,6 +164,7 @@ const Books = ({isNightMode}) => {
                 className="select"
                 value={sortValue}
                 onChange={(e) => setSortValue(e.target.value)}
+                style={{backgroundColor: isNightMode ? "#1e1d23" : "#fff", color: isNightMode ? "white":"black"}}
               >
                 <option value="">Select Price</option>
                 <option value="low">Low to High</option>

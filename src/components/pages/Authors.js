@@ -11,8 +11,9 @@ import ConvertToImage from "../converter/ConvertToImage";
 import MyLoader from "../loading/MyLoader";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
+import Search from "../Search";
 
-const Authors = () => {
+const Authors = ({isNightMode}) => {
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState();
   const [currentPage, setCurrentPage] = useState(1); 
@@ -70,13 +71,7 @@ const Authors = () => {
           >
             <div className="filter-container">
               <label className="filter.label" />
-              <input
-                placeholder="Search..."
-                className="me-2"
-                type="text"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
+              <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
               <Button
                 onClick={loadAuthors}
                 variant="outline-success"

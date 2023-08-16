@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faSearch } from "@fortawesome/free-solid-svg-icons";
 import MyLoader from "../loading/MyLoader";
 import  Button  from "react-bootstrap/Button";
+import Search from "../Search";
 
-const Genres = () => {
+const Genres = ({isNightMode}) => {
   const [genres, setGenres] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -68,13 +69,7 @@ const Genres = () => {
           >
             <div className="filter-container">
               <label className="filter.label" />
-              <input
-                placeholder="Search..."
-                className="me-2"
-                type="text"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
+              <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
               <Button
                 onClick={loadGenres}
                 variant="outline-success"

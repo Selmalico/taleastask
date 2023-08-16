@@ -9,7 +9,7 @@ import GenreSelect from "./GenreSelect";
 import ImageUploader from "../converter/ImageUploader";
 import "../styles/Add.css";
 
-const AddBook = () => {
+const AddBook = ({isNightMode}) => {
   let history = useHistory();
   const [book, setBook] = useState({
     title: "",
@@ -221,6 +221,8 @@ const AddBook = () => {
               name="title"
               value={title}
               onChange={onInputChange}
+              style={{backgroundColor: isNightMode ? "#1e1d23" : "#fff",
+              color: isNightMode ? "white" : "black",}}
             />
             {errors.title && (
               <div className="error-message">
