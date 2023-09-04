@@ -28,7 +28,7 @@ const AddGenre = () => {
 
   const loadBooks = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/books");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books");
       setBooks(response.data);
     } catch (error) {
       console.error(error);
@@ -73,7 +73,7 @@ const AddGenre = () => {
           bookIds: selectedBookIds,
         };
   
-        await axios.post("http://localhost:8000/genres", genreData);
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres", genreData);
         setSuccessMessage("Genre added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

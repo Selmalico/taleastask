@@ -18,7 +18,7 @@ const Genre = ({isNightMode}) => {
 
   const loadGenre = async () => {
     setLoading(true);
-    const res = await axios.get(`http://localhost:8000/genres/${id}`);
+    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
     setGenreData(res.data);
     setTimeout(() => {
       setLoading(false);

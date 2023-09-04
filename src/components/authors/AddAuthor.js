@@ -35,7 +35,7 @@ const AddAuthor = () => {
   const checkNameExists = async (name) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/author?name=${name}`
+        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/author?name=${name}`
       );
       return response.data.length > 0;
     } catch (error) {
@@ -91,7 +91,7 @@ const AddAuthor = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.post("http://localhost:8000/authors", author);
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors", author, {headers: {"Content-Type": "application/json"}});
         setSuccessMessage("Author added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

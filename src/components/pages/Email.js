@@ -14,7 +14,7 @@ const Email = () => {
       e.preventDefault();
   
       try {
-        const response = await axios.post('http://localhost:8000/subscribe', {
+        const response = await axios.post('https://mbdhs6j8u7.execute-api.eu-west-1.amazonaws.com/prod/subscribe', {
           email,
           subject,
           message,

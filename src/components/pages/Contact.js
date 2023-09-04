@@ -53,7 +53,7 @@ const Contact = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.post("http://localhost:8000/contact", problem);
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/contact", problem);
         setSuccessMessage("Thank you for letting us know! ");
         setTimeout(() => {
           setSuccessMessage("");
@@ -78,7 +78,8 @@ const Contact = () => {
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               value={email}
-              onChange={(e) => onInputChange(e)}
+              name="email"
+              onChange={onInputChange}
             />
             <small id="emailHelp" class="form-text text-muted">
               We'll never share your email with anyone else.
@@ -99,7 +100,8 @@ const Contact = () => {
               class="form-control"
               id="description"
               value={message}
-              onChange={(e) => onInputChange(e)}
+              name="message"
+              onChange={onInputChange}
             />
             {errors.message && (
                 <div className="error-message">

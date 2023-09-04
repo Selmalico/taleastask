@@ -7,7 +7,7 @@ const Footer = () => {
   const [email, setEmail] = useState("");
   const sendEmail = async (e) => {
     e.preventDefault();
-    const res = await axios.post("http://localhost:8000/subscribe", { email: email });
+    const res = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/subscribe", { email: email });
     console.log(res);
     setEmail("");
   };

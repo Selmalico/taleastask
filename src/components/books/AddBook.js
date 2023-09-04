@@ -42,7 +42,7 @@ const AddBook = ({isNightMode}) => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/authors");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
       setAuthors(response.data);
     } catch (error) {
       console.error(error);
@@ -51,7 +51,7 @@ const AddBook = ({isNightMode}) => {
 
   const loadGenres = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/genres");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres");
       setGenres(response.data);
     } catch (error) {
       console.error(error);
@@ -176,7 +176,7 @@ const AddBook = ({isNightMode}) => {
           genreIds: selectedGenres,
         };
         console.log(bookData);
-        await axios.post("http://localhost:8000/books", bookData);
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books", bookData, {headers: {"Content-Type": "application/json"}});
         setSuccessMessage("Book added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

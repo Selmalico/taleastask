@@ -25,7 +25,7 @@ const Genres = ({isNightMode}) => {
 
   const loadGenres = async () => {
     setLoading(true)
-    const results = await axios.get(`http://localhost:8000/genresmodel?page=${currentPage}&limit=6&search=${searchValue}`);
+    const results = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genrespag?page=${currentPage}&limit=6&search=${searchValue}`);
     setGenres(results.data.genresData);
 
     setTotalPages(results.data.Pagination.pageCount);
@@ -37,7 +37,7 @@ const Genres = ({isNightMode}) => {
 
   const deleteGenre = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/genres/${id}`);
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
       loadGenres();
       setOpen(false);
     } catch (error) {
@@ -63,10 +63,7 @@ const Genres = ({isNightMode}) => {
               <tab>Genres Page</tab>
             </h1>
           </div>
-          <div
-            className="col-6 d-flex justify-content-end"
-            style={{ marginLeft: "-200px", marginTop: "11px" }}
-          >
+          <div class="col-6 d-flex " style={{marginRight: "auto", width: "auto",}}>
             <div className="filter-container">
               <label className="filter.label" />
               <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
@@ -84,7 +81,7 @@ const Genres = ({isNightMode}) => {
                 <FontAwesomeIcon icon={faSearch} color="#fff" />
               </Button>
             </div>
-            <button className="bt">
+            <button className="bt style" style={{marginTop:"15px"}}>
               <Link to="/genre/add" className="bt">
                 Add Genre
               </Link>

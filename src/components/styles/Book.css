@@ -184,8 +184,13 @@ a.bt{
   .row {
     display: contents;
   }
-  .me-2{
-    position: absolute;
-    margin-left: 40px;
+  .style{
+    width: auto;
+    margin-top: 10px;
+  }
+  .view{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 }

@@ -22,7 +22,7 @@ const Author = ({isNightMode}) => {
 
   const loadAuthor = async () => {
     setLoading(true);
-    const res = await axios.get(`http://localhost:8000/authors/${id}`);
+    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`);
     setAuthorData(res.data);
     setTimeout(()=>{
       setLoading(false)
@@ -65,7 +65,7 @@ const Author = ({isNightMode}) => {
           <div className="row">
             <div >
             <div>
-                <ConvertToImage img = {authorData.img} />
+            <img src={authorData.img} alt="author" className="book-image"/>
               </div>
               <p className="card-text" style={{ color:isNightMode ?"white" : "#777"}}>
                 Email: {authorData.email}
@@ -94,9 +94,10 @@ const Author = ({isNightMode}) => {
       <div className="row">
         {authorData.books.map((book, index) => (
           <div key={index} className="col-md-4">
-            <div
+            <Link to={`/books/${book._id}`}
               className="card shadow my-4"
               style={{
+                textDecoration: "none",
                 backgroundColor: isNightMode ? "black" : "#f6eeee",
                 color: isNightMode ? "white" : "inherit",
                 borderRadius: "5px",
@@ -106,8 +107,8 @@ const Author = ({isNightMode}) => {
                 margin: "0 auto",
               }}
             >
-              <div className="card-body" style={{textAlign: "center"}}>
-                <ConvertToImage img={book.img} />
+              <div className="card-body" style={{textAlign: "center"}} >
+              <img src={book.img} alt="book cover" className="book-image"/>
                 <h5 className="card-title" style={{ color:isNightMode ?"white" : "#333" }}>
                   {book.title}
                 </h5>
@@ -124,7 +125,7 @@ const Author = ({isNightMode}) => {
                   Votes: {book.review.votes}
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>

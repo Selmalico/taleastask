@@ -50,7 +50,7 @@ const EditGenre = () => {
     e.preventDefault();
     if(validateForm()){
       try{
-    await axios.put(`http://localhost:8000/genres/${id}`, genre);
+    await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`, genre);
     setSuccessMessage("Genre updated successfully!");
       setTimeout(() => {
         setSuccessMessage("");
@@ -64,7 +64,7 @@ const EditGenre = () => {
 
   const loadBooks = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/books");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books");
       setBooks(response.data);
     } catch (error){
       console.log(error);
@@ -79,7 +79,7 @@ const EditGenre = () => {
 
   const loadGenre = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/genres/${id}`);
+      const response = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
       const { name, bookIds } = response.data;
       const bookIdsString = bookIds.join(", ");
       setGenre({ name, bookIds: bookIdsString });

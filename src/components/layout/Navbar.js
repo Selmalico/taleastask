@@ -6,9 +6,14 @@ import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({isNightMode, onToggle}) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLoginLogout = () => {
+    setIsLoggedIn(!isLoggedIn);
   };
 
   return (
@@ -44,16 +49,19 @@ const Navbar = ({isNightMode, onToggle}) => {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" exact to="/about">
-                About
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" exact to="/contact">
                 Contact
               </NavLink>
             </li>
           </ul>
+          <div>
+            <NavLink className="nav-link" exact to="/login">
+              Login
+            </NavLink>
+            <NavLink className="nav-link" exact to="/order">
+              Order
+            </NavLink>
+          </div>
         </div>
       </div>
       <div className="slider-container">

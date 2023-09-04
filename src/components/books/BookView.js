@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ConvertToImage from "../converter/ConvertToImage";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import AddToCart from "../AddOrder";
 
 const BookView = ({isNightMode}) => {
   const [book, setBook] = useState({
@@ -22,7 +23,7 @@ const BookView = ({isNightMode}) => {
 
   const loadBookView = async () => {
     setLoading(true);
-    const res = await axios.get(`http://localhost:8000/books/${id}`);
+    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
     setBook(res.data);
     setTimeout(() => {
       setLoading(false);
@@ -55,7 +56,7 @@ const BookView = ({isNightMode}) => {
         <ThreeDotsLoading />
       ) : (
         <div
-          className="book-card"
+          className="book-card view"
           style={{
             display: "flex",
             backgroundColor: isNightMode ? "black" : "#f6eeee",
@@ -99,9 +100,10 @@ const BookView = ({isNightMode}) => {
             <Link className="btn btn-primary mr-2" to={`/books/edit/${book._id}`}>
               Edit Book
             </Link>
+            <AddToCart bookId={book._id} quantity={1} />
           </div>
           <div>
-            <ConvertToImage img={book.img} />
+            <img src={book.img} className="book-image" alt="book-cover"/>
           </div>
         </div>
       )}

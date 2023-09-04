@@ -74,7 +74,7 @@ const EditAuthor = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.put(`http://localhost:8000/authors/${id}`, author);
+        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, author, {headers: {"Content-Type": "application/json"}});
         setSuccessMessage("Author updated successfully!");
         setTimeout(() => {
           setSuccessMessage("");
@@ -87,7 +87,7 @@ const EditAuthor = () => {
   };
 
   const loadAuthor = async () => {
-    const result = await axios.get(`http://localhost:8000/authors/${id}`);
+    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`);
     setAuthor(result.data);
   };
 

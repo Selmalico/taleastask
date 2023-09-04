@@ -29,7 +29,7 @@ const Authors = ({isNightMode}) => {
   const loadAuthors = async () => {
     setLoading(true)
     console.log(currentPage)
-    const results = await axios.get(`http://localhost:8000/authorsmodel?page=${currentPage}&limit=6&search=${searchValue}`);
+    const results = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authorspag?page=${currentPage}&limit=6&search=${searchValue}`);
     setAuthors(results.data.authorsData);
     setTotalPages(results.data.Pagination.pageCount);
     setTimeout(() => {
@@ -39,7 +39,7 @@ const Authors = ({isNightMode}) => {
 
   const deleteAuthor = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/authors/${id}`);
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`);
       loadAuthors();
       setOpen(false);
     } catch (error) {
@@ -65,10 +65,7 @@ const Authors = ({isNightMode}) => {
               <tab>Authors Page</tab>
             </h1>
           </div>
-          <div
-            className="col-6 d-flex justify-content-end"
-            style={{ marginLeft: "-200px", marginTop: "11px" }}
-          >
+          <div class="col-6 d-flex " style={{marginRight: "auto", width: "auto",}} >
             <div className="filter-container">
               <label className="filter.label" />
               <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
@@ -86,7 +83,7 @@ const Authors = ({isNightMode}) => {
                 <FontAwesomeIcon icon={faSearch} color="#fff" />
               </Button>
             </div>
-            <button className="bt">
+            <button className="bt style" style={{marginTop:"15px"}}>
               <Link to="/author/add" className="bt">
                 Add Author
               </Link>
@@ -103,7 +100,7 @@ const Authors = ({isNightMode}) => {
         <div className="data-container">
           {authors.map((author, index) => (
             <div key={author._id} className="data-card">
-              <ConvertToImage img={author.img} />
+              <img src={author.img} alt="author" className="book-image"/>
               <h2>{author.name}</h2>
               <p>Email: {author.email}</p>
               <p>Nationality: {author.nationality}</p>

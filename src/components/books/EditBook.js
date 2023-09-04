@@ -17,7 +17,7 @@ const EditBook = () => {
     price: "",
     rating: "",
     votes: "",
-    img: "",
+    img: null,
   });
   const [authors, setAuthors] = useState([]);
   const [genres, setGenres] = useState([]);
@@ -42,7 +42,7 @@ const EditBook = () => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/authors");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
       setAuthors(response.data);
     } catch (error) {
       console.error(error);
@@ -51,7 +51,7 @@ const EditBook = () => {
 
   const loadGenres = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/genres");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres");
       setGenres(response.data);
     } catch (error) {
       console.error(error);
@@ -134,20 +134,6 @@ const EditBook = () => {
     setBook({ ...book, author: selectedAuthor });
   };
 
-  const convertToBase64 = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const base64String = reader.result;
-      setBook({ ...book, img: base64String, selectedFile: file });
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
@@ -166,7 +152,7 @@ const EditBook = () => {
           img: book.img,
         };
         console.log(bookData);
-        await axios.put(`http://localhost:8000/books/${id}`, bookData);
+        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, bookData, {headers: {"Content-Type": "application/json"}});
         setSuccessMessage("Book updated successfully!");
         setTimeout(() => {
           setSuccessMessage("");
@@ -187,7 +173,7 @@ const EditBook = () => {
   };
 
   const loadBook = async () => {
-    const result = await axios.get(`http://localhost:8000/books/${id}`);
+    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
     const { title, author, genreIds, price, rating, votes } = result.data;
     setBook({ title, author, genreIds, price, rating, votes });
   };
@@ -338,12 +324,12 @@ const EditBook = () => {
                 </div>
               )}
               <div className="form-group">
-                <ImageUploader
-                  currentImage={book.img}
-                  setImage={(base64String) =>
-                    setBook({ ...book, img: base64String })
-                  }
-                />
+              <ImageUploader
+              currentImage={book.img}
+              setImage={(base64String) =>
+                setBook({ ...book, img: base64String })
+              }
+            />
               </div>
             </div>
             <div className="text-center">

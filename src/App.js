@@ -8,6 +8,7 @@ import Genre from "./components/genres/Genre";
 import EditAuthor from "./components/authors/EditAuthor";
 import Navbar from "./components/layout/Navbar";
 import Footer from "../src/components/pages/Footer";
+import ConfirmationPage from "./components/ConfirmationPage";
 import {
   BrowserRouter as Router,
   Route,
@@ -23,13 +24,16 @@ import Author from "./components/authors/Author";
 import EditGenre from "./components/genres/EditGenre";
 import AddAuthor from "./components/authors/AddAuthor";
 import AddGenre from "./components/genres/AddGenre";
-import About from "./components/pages/About";
 import { Pagination } from "react-bootstrap";
 import Home from "./components/pages/Home";
 import ThreeDotsLoading from "./components/loading/ThreeDotsLoading";
 import NotFound from "./components/pages/NotFound";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Email from "./components/pages/Email";
+import SignupForm from "./components/pages/Signup";
+import LoginPage from "./components/pages/Login";
+import VerifyEmail from "./components/layout/Verify";
+import ShoppingCart from "./components/AddToCart";
 
 function App(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +58,10 @@ function App(props) {
         {isLoading ? ( <ThreeDotsLoading />) : (
         <Switch>
           {/* Navbar */}
+          <Route exact path="/signup" component={SignupForm} />
+          <Route exact path= "/login" component={LoginPage} />
+          <Route exact path="/verify" component={VerifyEmail} />
+          <Route exact path="/order" component={ShoppingCart} />
           <Route exact path="/books" component={Home} />
           <Route exact path="/">
             <Books isNightMode={isNightMode} />
@@ -64,8 +72,8 @@ function App(props) {
           <Route exact path="/authors">
             <Authors isNightMode={isNightMode} />
           </Route>
-          <Route exact path = "/about" component ={About} />
           <Route exact path = "/contact" component = {Contact} />
+          <Route exact path="/subscribe/confirm/:email" component={ConfirmationPage} />
 
           {/*Author*/}
           <Route exact path="/authors/:id">

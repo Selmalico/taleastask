@@ -33,7 +33,7 @@ const Books = ({isNightMode}) => {
     setLoading(true);
     try {
       const results = await axios.get(
-        `http://localhost:8000/booksmodel?page=${currentPage}&limit=6&search=${searchValue}&authorId=${selectedAuthor}&sort=${sortValue}`
+        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/bookspag?page=${currentPage}&limit=6&search=${searchValue}&authorId=${selectedAuthor}&sort=${sortValue}`
       );
   
       setBooks(results.data.booksData);
@@ -47,7 +47,7 @@ const Books = ({isNightMode}) => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/authors");
+      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
       setAuthors(response.data);
     } catch (error) {
       console.log(error);
@@ -56,7 +56,7 @@ const Books = ({isNightMode}) => {
 
   const deleteBook = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/books/${id}`);
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
       setOpen(false);
       loadBooks();
     } catch (error) {
@@ -89,7 +89,7 @@ const Books = ({isNightMode}) => {
       setSelectedAuthor("");
       setSortValue("")
       const results = await axios.get(
-        `http://localhost:8000/booksmodel?page=${currentPage}&limit=6&search=&authorId=&sort=`
+        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/bookspag?page=${currentPage}&limit=3&search=&authorId=&sort=`
       );
   
       setBooks(results.data.booksData);
@@ -110,10 +110,7 @@ const Books = ({isNightMode}) => {
               <tab>Book Page</tab>
             </h1>
           </div>
-          <div
-            className="col-6 d-flex justify-content-end"
-            style={{ marginLeft: "-200px", marginTop: "11px" }}
-          >
+          <div class="col-6 d-flex " style={{marginRight: "auto", width: "auto",}}>
             <div className="filter-container">
               <label className="filter.label" />
               <Search searchValue={searchValue} setSearchValue={setSearchValue} isNightMode={isNightMode} />
@@ -131,7 +128,7 @@ const Books = ({isNightMode}) => {
                 <FontAwesomeIcon icon={faSearch} color="#fff" />
               </Button>
             </div>
-            <button className="bt">
+            <button className="bt style" style={{marginTop: "15px"}}>
               <Link to="/book/add" className="bt">
                 Add Book
               </Link>
@@ -209,7 +206,7 @@ const Books = ({isNightMode}) => {
           <div className="data-container">
             {books.map((book) => (
               <div key={book._id} className="data-card">
-                <ConvertToImage img={book.img} />
+                <img src={book.img} alt="book cover" className="book-image"/>
                 <h2>{book.title}</h2>
                 <p>Author: {book.author.name}</p>
                 <p>
