@@ -55,7 +55,7 @@ function App(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const userToken = localStorage.getItem('userToken');
+    const userToken = localStorage.getItem('accessToken');
     setIsLoggedIn(!!userToken); 
     setIsLoading(false);
   }, []);
