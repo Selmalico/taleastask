@@ -4,6 +4,11 @@ import axios from 'axios';
 import '../styles/Login.css';
 import { useHistory } from 'react-router-dom';
 
+Auth.configure({
+  region: "eu-west-1",
+  userPoolId: "eu-west-1_xSsWW2bZu",
+  userPoolWebClientId: "5065r68fg4i4l1pg3olrfjqac6",
+});
 const LoginPage = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
@@ -14,8 +19,25 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Replace with your backend API endpoint
-      const response = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/login", { username, password });
+      const user = await Auth.signIn(username, password, {
+        authenticationFlowType: "USER_PASSWORD_AUTH",
+      });
+      console.log(user);
+      if (!user || !user.signInUserSession || !user.signInUserSession.accessToken) {
+        throw new Error("Invalid user object or access token");
+      }
+  
+      const idToken = user.signInUserSession.idToken.jwtToken;
+      const accessToken = user.signInUserSession.accessToken.jwtToken;
+
+      localStorage.setItem("idToken", idToken);
+      localStorage.setItem("accessToken", accessToken);
+      console.log(username)
+
+      const response = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/login", { username, password },  {headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken,
+      },});
       if (response.data.status === "success") {
         setSuccess(true);
         setError(null);

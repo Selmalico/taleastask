@@ -15,18 +15,18 @@ const AddToCart = ({ bookId, quantity }) => {
     // Get the current logged in user
     console.log('works');
     const user = await Auth.currentAuthenticatedUser();
+
     // Get the user's JWT token
-    const token = user.signInUserSession.idToken.jwtToken;
-    const accessToken = user.signInUserSession.accessToken.jwtToken;
+    const token = user.signInUserSession.accessToken.jwtToken;
 
     // Send a POST request to the server to add the book to the cart
-    console.log(accessToken);
+    console.log(token);
     const response = await axios.post(
       `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/order`,
       { bookId, quantity },
       {
         headers: {
-          Authorization: accessToken,
+          Authorization: token,
           "Content-Type": "application/json"
         },
       }

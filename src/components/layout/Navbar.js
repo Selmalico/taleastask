@@ -1,20 +1,40 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Link, useHistory } from "react-router-dom";
 import "../styles/Navbar.css";
+import { Auth } from "aws-amplify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = ({isNightMode, onToggle}) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [user, setUser] = useState(null);
+  const history = useHistory();
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  const handleLoginLogout = () => {
-    setIsLoggedIn(!isLoggedIn);
+  const fetchUserData = async () => {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      setUser(userData);
+    } catch (error) {
+      console.log("Error fetching the user data", error);
+    }
   };
+
+  const handleLogout = async () => {
+    try {
+      await Auth.signOut();
+      setUser(null);
+      history.push("/");
+    } catch (error) {
+      console.log("Error logging out", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -54,10 +74,24 @@ const Navbar = ({isNightMode, onToggle}) => {
               </NavLink>
             </li>
           </ul>
-          <div>
-            <NavLink className="nav-link" exact to="/login">
-              Login
-            </NavLink>
+          <div className="navbar__right">
+          {user && (
+            <div className="nav-item">
+              <div className="nav-item">
+                Welcome, {user.username}
+              </div>
+              <button className="nav-item button" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          )}
+          {!user ? (
+            <div className="nav-item">
+              <NavLink to="/login" className="nav-item">
+                Login
+              </NavLink>
+            </div>
+          ) : null}
             <NavLink className="nav-link" exact to="/order">
               Order
             </NavLink>
