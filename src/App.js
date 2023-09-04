@@ -34,6 +34,8 @@ import SignupForm from "./components/pages/Signup";
 import LoginPage from "./components/pages/Login";
 import VerifyEmail from "./components/layout/Verify";
 import ShoppingCart from "./components/AddToCart";
+import {Auth} from 'aws-amplify';
+import { useContext } from 'react';
 
 function App(props) {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +52,13 @@ function App(props) {
   const handleToggle = () => {
     setIsNightMode(!isNightMode);
   };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    setIsLoggedIn(!!userToken); 
+    setIsLoading(false);
+  }, []);
   return (
     <Router>
       <div className={`App ${isNightMode ? 'night-mode' : 'day-mode'}`}>
@@ -76,6 +84,7 @@ function App(props) {
           <Route exact path="/subscribe/confirm/:email" component={ConfirmationPage} />
 
           {/*Author*/}
+          {isLoggedIn ? <>
           <Route exact path="/authors/:id">
             <Author isNightMode={isNightMode} />
           </Route>
@@ -97,6 +106,7 @@ function App(props) {
           <Route exact path="/books/:id">
             <BookView isNightMode={isNightMode} />
           </Route>
+          </> : <Redirect to ="/login" /> }
           <Route exact path="/notfound" component= {NotFound}/>
           <Route exact path="/email" component={Email} />
           <Redirect to ="/" />
