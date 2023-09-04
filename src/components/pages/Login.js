@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Auth } from "aws-amplify";
 import axios from 'axios';
 import '../styles/Login.css';
 import { useHistory } from 'react-router-dom';

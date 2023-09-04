@@ -2,6 +2,12 @@ import React from 'react';
 import { Auth } from 'aws-amplify';
 import axios from 'axios';
 
+Auth.configure({
+    region: "eu-west-1",
+    userPoolId: "eu-west-1_xSsWW2bZu",
+    userPoolWebClientId: "5065r68fg4i4l1pg3olrfjqac6",
+  });
+
 const AddToCart = ({ bookId, quantity }) => {
     console.log(bookId);
     console.log(quantity)
@@ -11,15 +17,16 @@ const AddToCart = ({ bookId, quantity }) => {
     const user = await Auth.currentAuthenticatedUser();
     // Get the user's JWT token
     const token = user.signInUserSession.idToken.jwtToken;
+    const accessToken = user.signInUserSession.accessToken.jwtToken;
 
     // Send a POST request to the server to add the book to the cart
-    console.log(token);
+    console.log(accessToken);
     const response = await axios.post(
       `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/order`,
       { bookId, quantity },
       {
         headers: {
-          Authorization: token,
+          Authorization: accessToken,
           "Content-Type": "application/json"
         },
       }
