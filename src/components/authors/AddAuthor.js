@@ -6,6 +6,7 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ImageUploader from "../converter/ImageUploader";
 import "../styles/Add.css";
+import { Auth } from "aws-amplify";
 
 const AddAuthor = () => {
   let history = useHistory();
@@ -33,9 +34,11 @@ const AddAuthor = () => {
   };
 
   const checkNameExists = async (name) => {
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
     try {
       const response = await axios.get(
-        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/author?name=${name}`
+        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/author?name=${name}`, {headers: {"Authorization": `Bearer ${idToken}`}}
       );
       return response.data.length > 0;
     } catch (error) {
@@ -88,10 +91,12 @@ const AddAuthor = () => {
   };
 
   const onSubmit = async (e) => {
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors", author, {headers: {"Content-Type": "application/json"}});
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors", author, {headers: {"Authorization": `Bearer ${idToken}`,"Content-Type": "application/json"}});
         setSuccessMessage("Author added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

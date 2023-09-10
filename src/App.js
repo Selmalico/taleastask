@@ -30,16 +30,35 @@ import ThreeDotsLoading from "./components/loading/ThreeDotsLoading";
 import NotFound from "./components/pages/NotFound";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Email from "./components/pages/Email";
-import SignupForm from "./components/pages/Signup";
-import LoginPage from "./components/pages/Login";
+import SignupForm from "./users/Signup";
+import LoginPage from "./users/Login";
 import VerifyEmail from "./components/layout/Verify";
-import ShoppingCart from "./components/AddToCart";
+import ShoppingCart from "./users/AddToCart";
 import {Auth} from 'aws-amplify';
 import { useContext } from 'react';
+import updateUser from "./users/updateUser";
+import UpdateUser from "./users/updateUser";
+import {Amplify} from 'aws-amplify';
+import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
+import { AuthProvider } from "./users/AuthProvider";
+import UpdateOrder from "./users/OrderUpdate";
+Amplify.configure({
+  Auth: {
+      region: 'eu-west-1',
+      userPoolId: 'eu-west-1_gyrdwaP3v',
+      userPoolWebClientId: '1i7s4i3nsmleqfihmmri50i2mu'
+  }
+});
 
 function App(props) {
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser]= useState(null)
+  const fetchUser = async () => {
+    const client = await Auth.currentAuthenticatedUser();
+    setUser(client);
+  }
   useEffect(() => {
+    fetchUser();
     setIsLoading(true);
     const loadingTimeout = setTimeout(() => {
       setIsLoading(false);
@@ -52,14 +71,9 @@ function App(props) {
   const handleToggle = () => {
     setIsNightMode(!isNightMode);
   };
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const userToken = localStorage.getItem('accessToken');
-    setIsLoggedIn(!!userToken); 
-    setIsLoading(false);
-  }, []);
+  
   return (
+    <AuthProvider >
     <Router>
       <div className={`App ${isNightMode ? 'night-mode' : 'day-mode'}`}>
         <Navbar isNightMode={isNightMode} onToggle={handleToggle}/>
@@ -69,7 +83,6 @@ function App(props) {
           <Route exact path="/signup" component={SignupForm} />
           <Route exact path= "/login" component={LoginPage} />
           <Route exact path="/verify" component={VerifyEmail} />
-          <Route exact path="/order" component={ShoppingCart} />
           <Route exact path="/books" component={Home} />
           <Route exact path="/">
             <Books isNightMode={isNightMode} />
@@ -84,7 +97,10 @@ function App(props) {
           <Route exact path="/subscribe/confirm/:email" component={ConfirmationPage} />
 
           {/*Author*/}
-          {isLoggedIn ? <>
+          {user ? <>
+          <Route exact path= "/order/edit/:id" component={UpdateOrder} />
+          <Route exact path= "/updateUser" component={UpdateUser} />
+          <Route exact path="/order" component={ShoppingCart} />
           <Route exact path="/authors/:id">
             <Author isNightMode={isNightMode} />
           </Route>
@@ -106,16 +122,16 @@ function App(props) {
           <Route exact path="/books/:id">
             <BookView isNightMode={isNightMode} />
           </Route>
-          </> : <Redirect to ="/login" /> }
           <Route exact path="/notfound" component= {NotFound}/>
           <Route exact path="/email" component={Email} />
-          <Redirect to ="/" />
-          <Pagination />
+
+          </> : <Redirect to ="/login" />}
         </Switch>
         )}
         <Footer />
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 

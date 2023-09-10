@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import "../styles/Login.css"
 
 const VerifyEmail = () => {
     const history = useHistory();
@@ -11,12 +12,11 @@ const VerifyEmail = () => {
         event.preventDefault();
         try {
             const response = await axios.post('https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/verify', {code, email})
-            const data = await response.json();
-            if (data.success) {
+            if (response.status === 200) {
                 alert('Email verified successfully!');
                 history.push('/login');
             } else {
-                alert(`Error verifying email: ${data.message}`);
+                alert(`Error verifying email: ${response.message}`);
             }
         } catch (error) {
             alert(`Error verifying email: ${error.message}`);
@@ -24,18 +24,26 @@ const VerifyEmail = () => {
     }
 
     return (
+        <section>
+        <div className='formvalue'>
         <form onSubmit={handleSubmit}>
+            <div className='loginform'>
+            <input id='username-field' type="text" value={code} onChange={event => setCode(event.target.value)} />
             <label>
                 Verification Code:
-                <input type="text" value={code} onChange={event => setCode(event.target.value)} />
             </label>
+            </div>
+            <div className='loginform'>
+            <input id='username-field' type='email' value={email} onChange={event => setEmail(event.target.value)} />
             <label>
                 Email: 
-                <input type='email' value={email} onChange={event => setEmail(event.target.value)} />
             </label>
+            </div>
             <br />
-            <input type="submit" value="Verify Email" />
+            <input className='btn' id= "login-submit" type="submit" value="Verify Email" />
         </form>
+        </div>
+        </section>
     );
 }
 

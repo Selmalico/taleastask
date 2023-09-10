@@ -8,6 +8,7 @@ import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import GenreSelect from "./GenreSelect";
 import ImageUploader from "../converter/ImageUploader";
 import "../styles/Add.css";
+import { Auth } from "aws-amplify";
 
 const AddBook = ({isNightMode}) => {
   let history = useHistory();
@@ -166,6 +167,8 @@ const AddBook = ({isNightMode}) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
     if (validateForm()) {
       try {
         const selectedGenres = genres
@@ -176,7 +179,7 @@ const AddBook = ({isNightMode}) => {
           genreIds: selectedGenres,
         };
         console.log(bookData);
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books", bookData, {headers: {"Content-Type": "application/json"}});
+        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books", bookData, {headers: {"Authorization":`Bearer ${idToken}`,"Content-Type": "application/json"}});
         setSuccessMessage("Book added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

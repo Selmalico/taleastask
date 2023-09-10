@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ConvertToImage from "../converter/ConvertToImage";
 import {Redirect} from "react-router-dom/cjs/react-router-dom.min"
+import { Auth } from "aws-amplify";
 
 const Author = ({isNightMode}) => {
   const [authorData, setAuthorData] = useState({
@@ -21,8 +22,10 @@ const Author = ({isNightMode}) => {
   }, []);
 
   const loadAuthor = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
     setLoading(true);
-    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`);
+    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
     setAuthorData(res.data);
     setTimeout(()=>{
       setLoading(false)

@@ -3,34 +3,33 @@ import React, { useState } from 'react';
 import {Auth} from 'aws-amplify';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/Login.css';
+import '../components/styles/Login.css';
 Auth.configure({
     region: "eu-west-1",
-    userPoolId: "eu-west-1_xSsWW2bZu",
-    userPoolWebClientId: "5065r68fg4i4l1pg3olrfjqac6",
+    userPoolId: "eu-west-1_gyrdwaP3v",
+    userPoolWebClientId: "	1i7s4i3nsmleqfihmmri50i2mu",
   });
 
 const SignupForm = () => {
   let history = useHistory();
   const [formData, setFormData] = useState({
     name: '',
+    lastname: '',
     birthday: '',
-    phone: '',
-    username: '',
     password: '',
   });
   const [errors, setErrors] = useState({
     name: '',
     birthday: '',
     email: '',
-    username: '',
+    lastname: '',
     password: '',
   });
-  const {name, birthday, email, username, password} = formData;
+  const {name, birthday, email, lastname, password} = formData;
   const validateForm = async () => {
     let formIsValid = true;
     const newErrors = {...errors};
-    const nameRegEx = /^[a-zA-Z]+ [a-zA-Z]{2,30}$/;
+    const nameRegEx = /^[a-zA-Z]{2,30}$/;
     const birthdayValidation = /^\d{4}-\d{2}-\d{2}$/;
     const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const passwordRegex =/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
@@ -63,14 +62,7 @@ const SignupForm = () => {
     } else {
         newErrors.email = "";
     }
-
-    if(!username) {
-        formIsValid = false;
-        newErrors.username = 'Username is required';
-    } else{
-        newErrors.email = "";
-    }
-
+    
     if (!password) {
         formIsValid = false;
         newErrors.password = 'Password is required';
@@ -124,6 +116,16 @@ const SignupForm = () => {
           <label>Name</label>
         </div>
         <div className='loginform'>
+        <input
+            id='username-field'
+            type="text"
+            name="lastname"
+            value={formData.lastname}
+            onChange={handleChange}
+          />
+          <label>Name</label>
+        </div>
+        <div className='loginform'>
           <input
             id='date-field'
             type="date"
@@ -141,16 +143,6 @@ const SignupForm = () => {
             value={formData.email}
             onChange={handleChange}
           />
-        </div>
-        <div className='loginform'>
-        <input
-            id='username-field'
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          <label>Username:</label>
         </div>
         <div className='loginform'>
         <input

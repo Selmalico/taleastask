@@ -12,6 +12,7 @@ import MyLoader from "../loading/MyLoader";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Search from "../Search";
+import { Auth } from "aws-amplify";
 
 const Authors = ({isNightMode}) => {
   const [authors, setAuthors] = useState([]);
@@ -39,7 +40,9 @@ const Authors = ({isNightMode}) => {
 
   const deleteAuthor = async (id) => {
     try {
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`);
+      const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
       loadAuthors();
       setOpen(false);
     } catch (error) {

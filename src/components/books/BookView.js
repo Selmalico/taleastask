@@ -4,7 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ConvertToImage from "../converter/ConvertToImage";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-import AddToCart from "../AddOrder";
+import ShoppingCart from "../../users/AddToCart";
+import AddToCart from "../../users/AddOrder";
+import { Auth } from "aws-amplify";
 
 const BookView = ({isNightMode}) => {
   const [book, setBook] = useState({
@@ -23,7 +25,9 @@ const BookView = ({isNightMode}) => {
 
   const loadBookView = async () => {
     setLoading(true);
-    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
     setBook(res.data);
     setTimeout(() => {
       setLoading(false);

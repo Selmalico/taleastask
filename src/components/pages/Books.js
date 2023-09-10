@@ -11,6 +11,7 @@ import ConvertToImage from "../converter/ConvertToImage";
 import Button from "react-bootstrap/Button";
 import "bootstrap";
 import Search from "../Search";
+import { Auth } from "aws-amplify";
 
 const Books = ({isNightMode}) => {
   const [books, setBooks] = useState([]);
@@ -56,7 +57,9 @@ const Books = ({isNightMode}) => {
 
   const deleteBook = async (id) => {
     try {
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
+      const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
       setOpen(false);
       loadBooks();
     } catch (error) {

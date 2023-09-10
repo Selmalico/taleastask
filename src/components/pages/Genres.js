@@ -9,6 +9,7 @@ import { faTrash, faSearch } from "@fortawesome/free-solid-svg-icons";
 import MyLoader from "../loading/MyLoader";
 import  Button  from "react-bootstrap/Button";
 import Search from "../Search";
+import { Auth } from "aws-amplify";
 
 const Genres = ({isNightMode}) => {
   const [genres, setGenres] = useState([]);
@@ -37,7 +38,9 @@ const Genres = ({isNightMode}) => {
 
   const deleteGenre = async (id) => {
     try {
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
+      const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
       loadGenres();
       setOpen(false);
     } catch (error) {

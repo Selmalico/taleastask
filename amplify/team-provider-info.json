@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-apricus-dev-185657-authRole",
+      "UnauthRoleArn": "arn:aws:iam::944511268761:role/amplify-apricus-dev-185657-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::944511268761:role/amplify-apricus-dev-185657-authRole",
+      "Region": "eu-west-1",
+      "DeploymentBucketName": "amplify-apricus-dev-185657-deployment",
+      "UnauthRoleName": "amplify-apricus-dev-185657-unauthRole",
+      "StackName": "amplify-apricus-dev-185657",
+      "StackId": "arn:aws:cloudformation:eu-west-1:944511268761:stack/amplify-apricus-dev-185657/668af880-4cd6-11ee-9c60-0a80247b3e61",
+      "AmplifyAppId": "d3rol99pzjizu"
+    }
+  }
+}

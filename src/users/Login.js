@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Auth } from "aws-amplify";
-import axios from 'axios';
-import '../styles/Login.css';
+import '../components/styles/Login.css';
 import { useHistory } from 'react-router-dom';
 
 Auth.configure({
   region: "eu-west-1",
-  userPoolId: "eu-west-1_xSsWW2bZu",
-  userPoolWebClientId: "5065r68fg4i4l1pg3olrfjqac6",
+  userPoolId: "eu-west-1_gyrdwaP3v",
+  userPoolWebClientId: "1i7s4i3nsmleqfihmmri50i2mu",
 });
+
 const LoginPage = () => {
   const history = useHistory();
   const [username, setUsername] = useState('');
@@ -19,14 +19,12 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const user = await Auth.signIn(username, password, {
-        authenticationFlowType: "USER_PASSWORD_AUTH",
-      });
-      console.log(user);
-      if (!user || !user.signInUserSession || !user.signInUserSession.accessToken) {
+      const user = await Auth.signIn(username, password);
+      console.log('Logged in user:', user);
+      if (!user) {
         throw new Error("Invalid user object or access token");
       }
-  
+
       const idToken = user.signInUserSession.idToken.jwtToken;
       const accessToken = user.signInUserSession.accessToken.jwtToken;
 
@@ -34,20 +32,33 @@ const LoginPage = () => {
       localStorage.setItem("accessToken", accessToken);
       console.log(username)
 
-      const response = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/login", { username, password },  {headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      },});
-      if (response.data.status === "success") {
-        setSuccess(true);
-        setError(null);
-        history.push('/')
-      } else {
-        setError(response.data.error);
-        setSuccess(false);
-      }
+      setSuccess(true);
+      setError(null);
+      history.push('/')
+      window.location.reload()
     } catch (err) {
       setError('An error occurred while logging in.');
+      setSuccess(false);
+    }
+  };
+
+  const handleForgotPassword = async (event) => {
+    event.preventDefault();
+    try {
+      // Initiate forgot password flow
+      await Auth.forgotPassword(username);
+
+      // Prompt user for verification code and new password
+      const code = prompt('Enter verification code:');
+      const newPassword = prompt('Enter new password:');
+
+      // Reset password
+      await Auth.forgotPasswordSubmit(username, code, newPassword);
+
+      setSuccess(true);
+      setError(null);
+    } catch (err) {
+      setError('An error occurred while resetting password.');
       setSuccess(false);
     }
   };
@@ -84,6 +95,7 @@ const LoginPage = () => {
         <br />
         </div>
         <input className='btn' id='login-submit' type="submit" value="Login" />
+        <button onClick={handleForgotPassword}>Forgot Password</button>
         <div class="register">
             <p>Don't have a account <a href="/signup">Register now!</a> </p>
         </div>

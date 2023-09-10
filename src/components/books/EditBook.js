@@ -6,6 +6,7 @@ import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import GenreSelect from "./GenreSelect";
 import ImageUploader from "../converter/ImageUploader";
+import { Auth } from "aws-amplify";
 
 const EditBook = () => {
   let history = useHistory();
@@ -152,7 +153,9 @@ const EditBook = () => {
           img: book.img,
         };
         console.log(bookData);
-        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, bookData, {headers: {"Content-Type": "application/json"}});
+        const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, bookData, {headers: {"Authorization": `Bearer ${idToken}`,"Content-Type": "application/json"}});
         setSuccessMessage("Book updated successfully!");
         setTimeout(() => {
           setSuccessMessage("");
@@ -173,7 +176,9 @@ const EditBook = () => {
   };
 
   const loadBook = async () => {
-    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`);
+    const user = await Auth.currentAuthenticatedUser();
+    const idToken = user.signInUserSession.idToken.jwtToken;
+    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
     const { title, author, genreIds, price, rating, votes } = result.data;
     setBook({ title, author, genreIds, price, rating, votes });
   };
