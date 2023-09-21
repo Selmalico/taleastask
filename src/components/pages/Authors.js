@@ -1,6 +1,6 @@
 // Author.js
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from '../../axiosInstance';
 import { Link } from "react-router-dom";
 import "../styles/Book.css"; // Import the common CSS styles
 import Pagination from "../Pagination";
@@ -30,7 +30,7 @@ const Authors = ({isNightMode}) => {
   const loadAuthors = async () => {
     setLoading(true)
     console.log(currentPage)
-    const results = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authorspag?page=${currentPage}&limit=6&search=${searchValue}`);
+    const results = await axiosInstance.get(`/authorspag?page=${currentPage}&limit=6&search=${searchValue}`);
     setAuthors(results.data.authorsData);
     setTotalPages(results.data.Pagination.pageCount);
     setTimeout(() => {
@@ -40,9 +40,7 @@ const Authors = ({isNightMode}) => {
 
   const deleteAuthor = async (id) => {
     try {
-      const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+      await axiosInstance.delete(`/authors/${id}`);
       loadAuthors();
       setOpen(false);
     } catch (error) {

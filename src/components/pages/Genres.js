@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from '../../axiosInstance';
 import { Link } from "react-router-dom";
 import "../styles/Book.css"
 import Pagination from "../Pagination";
@@ -26,7 +26,7 @@ const Genres = ({isNightMode}) => {
 
   const loadGenres = async () => {
     setLoading(true)
-    const results = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genrespag?page=${currentPage}&limit=6&search=${searchValue}`);
+    const results = await axiosInstance.get(`/genrespag?page=${currentPage}&limit=6&search=${searchValue}`);
     setGenres(results.data.genresData);
 
     setTotalPages(results.data.Pagination.pageCount);
@@ -39,8 +39,7 @@ const Genres = ({isNightMode}) => {
   const deleteGenre = async (id) => {
     try {
       const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+      await axiosInstance.delete(`/genres/${id}`);
       loadGenres();
       setOpen(false);
     } catch (error) {

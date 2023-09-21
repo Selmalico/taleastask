@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import "bootstrap";
-import axios from "axios";
+import axiosInstance from '../../axiosInstance'
 import "../styles/Footer.css"
 
 const Footer = () => {
   const [email, setEmail] = useState("");
   const sendEmail = async (e) => {
     e.preventDefault();
-    const res = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/subscribe", { email: email });
+    const res = await axiosInstance.post("/subscribe", { email: email });
     console.log(res);
     setEmail("");
   };

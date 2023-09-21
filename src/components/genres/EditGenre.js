@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -50,7 +50,7 @@ const EditGenre = () => {
     e.preventDefault();
     if(validateForm()){
       try{
-    await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`, genre);
+    await axiosInstance.put(`/genres/${id}`, genre);
     setSuccessMessage("Genre updated successfully!");
       setTimeout(() => {
         setSuccessMessage("");
@@ -64,7 +64,7 @@ const EditGenre = () => {
 
   const loadBooks = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books");
+      const response = await axiosInstance.get("/books");
       setBooks(response.data);
     } catch (error){
       console.log(error);
@@ -79,7 +79,7 @@ const EditGenre = () => {
 
   const loadGenre = async () => {
     try {
-      const response = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
+      const response = await axiosInstance.get(`/genres/${id}`);
       const { name, bookIds } = response.data;
       const bookIdsString = bookIds.join(", ");
       setGenre({ name, bookIds: bookIdsString });

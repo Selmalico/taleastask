@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ConvertToImage from "../converter/ConvertToImage";
@@ -25,9 +25,7 @@ const BookView = ({isNightMode}) => {
 
   const loadBookView = async () => {
     setLoading(true);
-    const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+    const res = await axiosInstance.get(`/books/${id}`);
     setBook(res.data);
     setTimeout(() => {
       setLoading(false);

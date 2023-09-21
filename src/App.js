@@ -42,6 +42,8 @@ import {Amplify} from 'aws-amplify';
 import { Authenticator, withAuthenticator } from '@aws-amplify/ui-react';
 import { AuthProvider } from "./users/AuthProvider";
 import UpdateOrder from "./users/OrderUpdate";
+import ForgotPasswordPage from "./users/ForggotPassword";
+import NavbarComponent from "./components/layout/Navbar";
 Amplify.configure({
   Auth: {
       region: 'eu-west-1',
@@ -76,13 +78,14 @@ function App(props) {
     <AuthProvider >
     <Router>
       <div className={`App ${isNightMode ? 'night-mode' : 'day-mode'}`}>
-        <Navbar isNightMode={isNightMode} onToggle={handleToggle}/>
+        <NavbarComponent isNightMode={isNightMode} onToggle={handleToggle}/>
         {isLoading ? ( <ThreeDotsLoading />) : (
         <Switch>
           {/* Navbar */}
           <Route exact path="/signup" component={SignupForm} />
           <Route exact path= "/login" component={LoginPage} />
           <Route exact path="/verify" component={VerifyEmail} />
+          <Route exact path="/forgotPassword" component={ForgotPasswordPage} />
           <Route exact path="/books" component={Home} />
           <Route exact path="/">
             <Books isNightMode={isNightMode} />

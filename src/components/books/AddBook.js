@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -43,7 +43,7 @@ const AddBook = ({isNightMode}) => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
+      const response = await axiosInstance.get("/authors");
       setAuthors(response.data);
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ const AddBook = ({isNightMode}) => {
 
   const loadGenres = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres");
+      const response = await axiosInstance.get("/genres");
       setGenres(response.data);
     } catch (error) {
       console.error(error);
@@ -179,7 +179,7 @@ const AddBook = ({isNightMode}) => {
           genreIds: selectedGenres,
         };
         console.log(bookData);
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books", bookData, {headers: {"Authorization":`Bearer ${idToken}`,"Content-Type": "application/json"}});
+        await axiosInstance.post("/books", bookData, {headers: {"Content-Type": "application/json"}});
         setSuccessMessage("Book added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

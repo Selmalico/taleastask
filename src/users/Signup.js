@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import {Auth} from 'aws-amplify';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 import '../components/styles/Login.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 Auth.configure({
     region: "eu-west-1",
     userPoolId: "eu-west-1_gyrdwaP3v",
@@ -89,7 +91,7 @@ const SignupForm = () => {
     e.preventDefault();
     if(validateForm()){
     try {
-      const response = await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/signup", formData);
+      const response = await axiosInstance.post("/user/signup", formData);
       console.log(response.data);
       history.push({
         pathname: '/verify',
@@ -114,6 +116,15 @@ const SignupForm = () => {
             onChange={handleChange}
           />
           <label>Name</label>
+          {errors.name && (
+                <div className="error-message">
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "#ff0000" }}
+                  />
+                  {errors.name}
+                </div>
+              )}
         </div>
         <div className='loginform'>
         <input
@@ -123,7 +134,16 @@ const SignupForm = () => {
             value={formData.lastname}
             onChange={handleChange}
           />
-          <label>Name</label>
+          <label>Lastname</label>
+          {errors.name && (
+                <div className="error-message">
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "#ff0000" }}
+                  />
+                  {errors.name}
+                </div>
+              )}
         </div>
         <div className='loginform'>
           <input
@@ -133,6 +153,15 @@ const SignupForm = () => {
             value={formData.birthday}
             onChange={handleChange}
           />
+          {errors.birthday && (
+                <div className="error-message">
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "#ff0000" }}
+                  />
+                  {errors.birthday}
+                </div>
+              )}
         </div>
         <div className='loginform'>
           <label>Email:</label>
@@ -153,6 +182,15 @@ const SignupForm = () => {
             onChange={handleChange}
           />
           <label>Password:</label>
+          {errors.password && (
+                <div className="error-message">
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    style={{ color: "#ff0000" }}
+                  />
+                  {errors.password}
+                </div>
+              )}
         </div>
         <input className='btn' id='login-submit' type="submit" value="Signup" />
       </form>

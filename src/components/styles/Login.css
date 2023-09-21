@@ -87,17 +87,38 @@ section .btn{
     text-align: center;
     font-weight: 500;
     margin: 25px 0 10px;
-    color: aliceblue;
+    color: white;
     position: fixed;
     margin-bottom: -350px;
     justify-content: space-between;
 }
 .register a{
     text-decoration: none;
-    color:aquamarine;
+    color:black;
     font-weight: 600
 }
 .register a:hover{
     text-decoration: underline;
-    color: white;
+    color: white
+}
+.remember{
+    margin: -15px 0 15px;
+    font-size: .9em;
+    color: aliceblue;
+    font-weight: 500;
+    display: flex;
+    justify-content:space-between
+}
+.remember label input{
+    margin-right: 3px;
+    accent-color: #162938;
+}
+.remember a {
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+}
+.remember a:hover{
+    text-decoration: underline;
+    color: aliceblue;
 }

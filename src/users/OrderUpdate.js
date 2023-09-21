@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import { Auth } from "aws-amplify";
 import { useParams } from "react-router-dom";
 const UpdateOrder = async () => {
@@ -11,11 +11,9 @@ const [email, setEmail] = useState('');
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-      const res = await axios.put(
-        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/order/${id}`,
-        { email, bookId, newQuantity }, {headers : {Authorization: `Barear ${idToken}`}}
+      const res = await axiosInstance.put(
+        `/order/${id}`,
+        { email, bookId, newQuantity }
       );
       setResponse(res.data);
     } catch (err) {

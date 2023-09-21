@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -37,8 +37,8 @@ const AddAuthor = () => {
     const user = await Auth.currentAuthenticatedUser();
     const idToken = user.signInUserSession.idToken.jwtToken;
     try {
-      const response = await axios.get(
-        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/author?name=${name}`, {headers: {"Authorization": `Bearer ${idToken}`}}
+      const response = await axiosInstance.get(
+        `/author?name=${name}`
       );
       return response.data.length > 0;
     } catch (error) {
@@ -96,7 +96,7 @@ const AddAuthor = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors", author, {headers: {"Authorization": `Bearer ${idToken}`,"Content-Type": "application/json"}});
+        await axiosInstance.post("/authors", author);
         setSuccessMessage("Author added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

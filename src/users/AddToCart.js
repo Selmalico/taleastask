@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import React, { useEffect, useState } from "react";
 import { Auth } from "aws-amplify";
 import { Link } from "react-router-dom";
@@ -18,11 +18,9 @@ const ShoppingCart = () => {
   };
   const fetchCart = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
     const email = user.attributes.email;
-    const response = await axios.get(
-      `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/order?email=${email}`,
-      { headers: { Authorization: `Bearer ${idToken}` } }
+    const response = await axiosInstance.get(
+      `/order?email=${email}`,
     );
     console.log(response);
     setCart(response.data.order);

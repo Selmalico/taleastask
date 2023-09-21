@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import ConvertToImage from "../converter/ConvertToImage";
@@ -22,10 +22,8 @@ const Author = ({isNightMode}) => {
   }, []);
 
   const loadAuthor = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
     setLoading(true);
-    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+    const res = await axiosInstance.get(`/authors/${id}`);
     setAuthorData(res.data);
     setTimeout(()=>{
       setLoading(false)

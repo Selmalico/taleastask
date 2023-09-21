@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
-import axios from 'axios';
+import axiosInstance from '../../axiosInstance'
 
 const Email = () => {
     const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ const Email = () => {
       e.preventDefault();
   
       try {
-        const response = await axios.post('https://mbdhs6j8u7.execute-api.eu-west-1.amazonaws.com/prod/subscribe', {
+        const response = await axiosInstance.post('/subscribe', {
           email,
           subject,
           message,

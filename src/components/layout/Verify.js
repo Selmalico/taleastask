@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../axiosInstance';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import "../styles/Login.css"
 
@@ -11,7 +11,7 @@ const VerifyEmail = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/verify', {code, email})
+            const response = await axiosInstance.post('/user/verify', {code, email})
             if (response.status === 200) {
                 alert('Email verified successfully!');
                 history.push('/login');

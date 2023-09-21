@@ -1,6 +1,6 @@
 import React from 'react';
 import { Auth } from 'aws-amplify';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 import { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,14 +31,13 @@ const AddToCart = ({ bookId, quantity }) => {
     // Get the current logged in user
     console.log('works');
     const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
 
     // Send a POST request to the server to add the book to the cart
     const email = user.attributes.email;
     const request = {email, bookId, quantity};
     console.log(request);
-    const response = await axios.post(
-      `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/order`,request, {headers: {"Authorization": `Bearer ${idToken}`}});
+    const response = await axiosInstance.post(
+      `/order`,request);
     console.log(bookId, quantity)
     
     // Handle the response

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from '../../axiosInstance';
 import "../styles/Book.css";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
@@ -33,8 +33,8 @@ const Books = ({isNightMode}) => {
   const loadBooks = async () => {
     setLoading(true);
     try {
-      const results = await axios.get(
-        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/bookspag?page=${currentPage}&limit=6&search=${searchValue}&authorId=${selectedAuthor}&sort=${sortValue}`
+      const results = await axiosInstance.get(
+        `/bookspag?page=${currentPage}&limit=6&search=${searchValue}&authorId=${selectedAuthor}&sort=${sortValue}`
       );
   
       setBooks(results.data.booksData);
@@ -48,7 +48,7 @@ const Books = ({isNightMode}) => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
+      const response = await axiosInstance.get("/authors");
       setAuthors(response.data);
     } catch (error) {
       console.log(error);
@@ -57,9 +57,7 @@ const Books = ({isNightMode}) => {
 
   const deleteBook = async (id) => {
     try {
-      const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-      await axios.delete(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+      await axiosInstance.delete(`/books/${id}`);
       setOpen(false);
       loadBooks();
     } catch (error) {
@@ -91,8 +89,8 @@ const Books = ({isNightMode}) => {
       setSearchValue("");
       setSelectedAuthor("");
       setSortValue("")
-      const results = await axios.get(
-        `https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/bookspag?page=${currentPage}&limit=3&search=&authorId=&sort=`
+      const results = await axiosInstance.get(
+        `/bookspag?page=${currentPage}&limit=3&search=&authorId=&sort=`
       );
   
       setBooks(results.data.booksData);

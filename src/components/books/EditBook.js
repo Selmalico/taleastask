@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -43,7 +43,7 @@ const EditBook = () => {
 
   const loadAuthors = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors");
+      const response = await axiosInstance.get("/authors");
       setAuthors(response.data);
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ const EditBook = () => {
 
   const loadGenres = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres");
+      const response = await axiosInstance.get("/genres");
       setGenres(response.data);
     } catch (error) {
       console.error(error);
@@ -153,9 +153,7 @@ const EditBook = () => {
           img: book.img,
         };
         console.log(bookData);
-        const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, bookData, {headers: {"Authorization": `Bearer ${idToken}`,"Content-Type": "application/json"}});
+        await axiosInstance.put(`/books/${id}`, bookData);
         setSuccessMessage("Book updated successfully!");
         setTimeout(() => {
           setSuccessMessage("");
@@ -178,7 +176,7 @@ const EditBook = () => {
   const loadBook = async () => {
     const user = await Auth.currentAuthenticatedUser();
     const idToken = user.signInUserSession.idToken.jwtToken;
-    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+    const result = await axiosInstance.get(`/books/${id}`);
     const { title, author, genreIds, price, rating, votes } = result.data;
     setBook({ title, author, genreIds, price, rating, votes });
   };

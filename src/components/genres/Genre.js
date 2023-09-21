@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { Link, useParams } from "react-router-dom";
 import ThreeDotsLoading from "../loading/ThreeDotsLoading";
 import "../styles/Book.css";
@@ -18,7 +18,7 @@ const Genre = ({isNightMode}) => {
 
   const loadGenre = async () => {
     setLoading(true);
-    const res = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres/${id}`);
+    const res = await axiosInstance.get(`/genres/${id}`);
     setGenreData(res.data);
     setTimeout(() => {
       setLoading(false);
@@ -56,7 +56,7 @@ const Genre = ({isNightMode}) => {
           <div className="row">
             {genreData.books.map((book, index) => (
               <div key={index} className="col-md-4">
-                <div className="book-card card shadow my-4">
+                <Link className="book-card card shadow my-4" style={{textDecoration: "none"}}>
                   <div className="card-body" style={{backgroundColor: isNightMode ? "black" : "#f6eeee",
         color: isNightMode ? "white" : "inherit",}}>
                     <h5 className="card-title">{book.title}</h5>
@@ -64,7 +64,7 @@ const Genre = ({isNightMode}) => {
                     <p className="card-text">Price: {book.price}</p>
                     <p className="card-text">Rating: {book.review.rating}</p>
                   </div>
-                </div>
+                </Link>
               </div>
             ))}
           </div>

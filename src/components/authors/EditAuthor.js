@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory, useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -77,7 +77,7 @@ const EditAuthor = () => {
     const idToken = user.signInUserSession.idToken.jwtToken;
     if (validateForm()) {
       try {
-        await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, author, {headers: {"Authorization": `Bearer ${idToken}`,"Content-Type": "application/json"}});
+        await axiosInstance.put(`/authors/${id}`, author);
         setSuccessMessage("Author updated successfully!");
         setTimeout(() => {
           setSuccessMessage("");
@@ -90,9 +90,7 @@ const EditAuthor = () => {
   };
 
   const loadAuthor = async () => {
-    const user = await Auth.currentAuthenticatedUser();
-    const idToken = user.signInUserSession.idToken.jwtToken;
-    const result = await axios.get(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/authors/${id}`, {headers: {"Authorization": `Bearer ${idToken}`}});
+    const result = await axiosInstance.get(`/authors/${id}`);
     setAuthor(result.data);
   };
 

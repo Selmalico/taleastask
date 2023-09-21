@@ -1,6 +1,6 @@
 import React from "react";
 import { Auth } from "aws-amplify";
-import axios from "axios";
+import axiosInstance from "../axiosInstance";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
@@ -70,7 +70,7 @@ const UpdateUser = () => {
       const user = await Auth.currentAuthenticatedUser();
       const idToken = user.signInUserSession.idToken.jwtToken;
       const email = user.attributes.email;
-      const response = await axios.put(`https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/user/update`, { name, lastname, email, password }, {headers: {"Authorization" : `Bearer ${idToken}`}});
+      const response = await axiosInstance.put(`user/update`, { name, lastname, email, password });
 
       // Handle the response
       if (response.status === 200) {

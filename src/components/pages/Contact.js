@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/Add.css";
-import axios from "axios";
+import axiosInstance from '../../axiosInstance';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
 
@@ -53,7 +53,7 @@ const Contact = () => {
     e.preventDefault();
     if (validateForm()) {
       try {
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/contact", problem);
+        await axiosInstance.post("/contact", problem);
         setSuccessMessage("Thank you for letting us know! ");
         setTimeout(() => {
           setSuccessMessage("");

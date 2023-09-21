@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axiosInstance from "../../axiosInstance";
 import { useHistory, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +28,7 @@ const AddGenre = () => {
 
   const loadBooks = async () => {
     try {
-      const response = await axios.get("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/books");
+      const response = await axiosInstance.get("/books");
       setBooks(response.data);
     } catch (error) {
       console.error(error);
@@ -73,7 +73,7 @@ const AddGenre = () => {
           bookIds: selectedBookIds,
         };
   
-        await axios.post("https://h11nl84387.execute-api.eu-west-1.amazonaws.com/dev/genres", genreData);
+        await axiosInstance.post("/genres", genreData);
         setSuccessMessage("Genre added successfully!");
         setTimeout(() => {
           setSuccessMessage("");

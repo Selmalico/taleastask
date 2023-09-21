@@ -169,7 +169,12 @@ a.bt{
   width: 420px;
   height: 43px
 }
-
+@media (max-width: 1000px) {
+  .data-card {
+    width: 46%; 
+    margin: 0.5%; 
+  }
+}
 /* Responsive styles for smaller screens */
 @media (max-width: 768px) {
   .data-card {
